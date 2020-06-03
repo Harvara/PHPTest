@@ -1,15 +1,10 @@
 <?php
 
-
-require "EncryptedMessage.php";
-
-
-$m2 = new EncryptedMessage("testmessage");
-
-$m2->encrypt();
-
-echo $m2->getUnencryptedContent() .  PHP_EOL;
-echo $m2->getEncryptedContent() . PHP_EOL;
+require_once "Message.php";
+require_once "EncryptedMessage.php";
 
 
-echo hash("sha256", "testmessage");
+$m1 = new Message("Hello Wolrd");
+
+echo $m1::MESSAGE_SERVER;
+$m1->contactMessageServer();

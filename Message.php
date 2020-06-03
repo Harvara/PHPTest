@@ -9,6 +9,7 @@ class Message {
     private $sender;
     private $meta;
 
+    const MESSAGE_SERVER = "147.9.2.3";
 
     public function __construct($content){
         $this->content=$content;
@@ -25,6 +26,10 @@ class Message {
 
     public function checkMeta($ip){
         return $this->meta->checkSenderIP($ip);
+    }
+
+    public function contactMessageServer(){
+        echo "Could not reach server at ". self::MESSAGE_SERVER ;
     }
 
 }
