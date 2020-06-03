@@ -1,25 +1,14 @@
 <?php
 
-require_once "config/settings.php";
 require_once "vendor/autoload.php";
 require_once "src/classes/Message.php";
+require_once "src/classes/DatabaseConnection.php";
 
 
 $messages = [];
 
 
-try {
-    $pdo = new PDO(
-        "mysql:host={$settings["host"]};dbname={$settings["db"]}",
-        $settings["dbuser"],
-        $settings["pw"]);
-    // set the PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("SLQ Connection Error" . $e);
-}
-
-
+$pdo= DatabaseConnection::create();
 
 $sql="select * from Messages";
 $statement = $pdo->prepare($sql);
