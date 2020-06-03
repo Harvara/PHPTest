@@ -1,7 +1,7 @@
 <?php
 
-
-require "MessageMeta.php";
+require_once "Message.php";
+require_once "MessageMeta.php";
 
 class Message {
     private $content;
@@ -19,7 +19,7 @@ class Message {
         $this->content=$content;
     }
 
-    public function getMessage(){
+    public function getContent(){
         return $this->content;
     }
 
