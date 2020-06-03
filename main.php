@@ -1,12 +1,14 @@
 <?php
 
-require_once "Message.php";
-require_once "EncryptedMessage.php";
+require_once "config/dbConnection.php";
 
-
-
-$m1 = new Message();
-
-echo $m1->getContent() . PHP_EOL;
-echo $m1::MESSAGE_SERVER;
-$m1->contactMessageServer();
+try {
+    $pdo = new PDO(
+        "mysql:host=$server;dbname=$db",
+        $dbuser,
+        $pw);
+    // set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("SLQ Connection Error" . $e);
+}
