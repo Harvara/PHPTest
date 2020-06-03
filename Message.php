@@ -9,9 +9,13 @@ class Message {
     private $sender;
     private $meta;
 
+    public static $defaultContent = "This is the message Content";
     const MESSAGE_SERVER = "147.9.2.3";
 
-    public function __construct($content){
+    public function __construct($content=false){
+        if (!$content){
+            $content = Message::$defaultContent;
+        }
         $this->content=$content;
         $this->meta= new MessageMeta("127.0.0.1","AF:00:00:00");
     }
@@ -31,5 +35,7 @@ class Message {
     public function contactMessageServer(){
         echo "Could not reach server at ". self::MESSAGE_SERVER ;
     }
+
+
 
 }
