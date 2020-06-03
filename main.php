@@ -2,6 +2,11 @@
 
 require_once "config/settings.php";
 require_once "vendor/autoload.php";
+require_once "src/classes/Message.php";
+
+
+$messages = [];
+
 
 try {
     $pdo = new PDO(
@@ -15,34 +20,19 @@ try {
 }
 
 
+
 $sql="select * from Messages";
 $statement = $pdo->prepare($sql);
 
-
 $statement->execute();
-$result = $statement->fetch(PDO::FETCH_ASSOC);
-echo "Content:" . $result["Content"] . PHP_EOL;
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+foreach ($result as $res){
+    array_push(
+        $messages,
+        new Message($res)
+    );
+}
 
-
-
-$sql="select * from Messages where SenderIP= :sip";
-$statement = $pdo->prepare($sql);
-
-$sip= "127.0.0.1";
-$statement->bindValue(":sip",$sip);
-
-$statement->execute();
-$result = $statement->fetch(PDO::FETCH_ASSOC);
-echo "Content:" . $result["Content"] . PHP_EOL;
-
-
-$sql="select * from Messages where ID = :id";
-$statement = $pdo->prepare($sql);
-
-$statement->bindValue(":id",1,PDO::PARAM_INT);
-
-
-$statement->execute();
-$result = $statement->fetch(PDO::FETCH_ASSOC);
-echo "Content:" . $result["Content"] . PHP_EOL;
-
+foreach ($messages as $message){
+    $message->printMessage();
+}

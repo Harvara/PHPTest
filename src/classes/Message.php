@@ -15,8 +15,21 @@ class Message {
         if (!$content){
             $content = Message::$defaultContent;
         }
-        $this->content=$content;
+        if(gettype($content)==="array"){
+            $this->createNewMessagefromArray($content);
+        }else{
+            $this->content=$content;
+        }
         $this->meta= new MessageMeta("127.0.0.1","AF:00:00:00");
+    }
+
+    private function  createNewMessagefromArray($content){
+        if (sizeof($content)>0){
+            $this->content=$content["Content"];
+            $this->sender=$content["SenderIP"];
+        }else{
+            $this->content=Message::$defaultContent;
+        }
     }
 
     public function setMessage($content){
@@ -35,6 +48,9 @@ class Message {
         echo "Could not reach server at ". self::MESSAGE_SERVER ;
     }
 
+    public  function printMessage(){
+        echo "Content: " . $this->content .  " - Sender: " . $this->sender . PHP_EOL;
+    }
 
 
 }
