@@ -96,7 +96,7 @@ class Message {
         }
     }
 
-    private function saveNewMessageToDB($pdo){
+    private function saveNewMessageinDB($pdo){
         $sql = "Insert into Messages (Content, SenderIP) values (:content, :senderip)";
         $statement = $pdo->prepare($sql);
         $values=[":content" => $this->content, ":senderip" => $this->sender];

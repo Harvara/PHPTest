@@ -6,8 +6,6 @@ require_once "src/classes/DatabaseConnection.php";
 
 $messages = [];
 
-echo "Loading Messages from DB" . PHP_EOL;
-
 $pdo= new DatabaseConnection();
 $pdo = $pdo->create();
 
@@ -18,25 +16,24 @@ $statement = $pdo->prepare($sql);
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $res){
+    var_dump($res);
     array_push(
         $messages,
         Message::withContent($res)
     );
 }
 
-echo "Got " . sizeof($messages) .  " Messages" .  PHP_EOL;
-
-$f = fopen("php://stdin","r");
+while(sizeof($messages)<5){
+    readNewMessage();
+}
 
 foreach ($messages as $message){
     $message->printMessage();
-    fgets($f);
     $message->saveMessageToDB($pdo);
 }
 
-fclose($f);
-
 function readNewMessage() {
+    global $messages;
     $f = fopen("php://stdin","r");
     echo "Create new Message".PHP_EOL;
 
